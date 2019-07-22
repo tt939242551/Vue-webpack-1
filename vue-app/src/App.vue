@@ -1,17 +1,26 @@
 <template>
   <div id="app">
+    <h1><router-link to="/helloworld">HELLO WORLD</router-link></h1>
+    <h2><router-link :to="{
+    name: 'hello',
+    params: yyy,
+    }">HELLO</router-link></h2>
     <img src="./assets/logo.png">
-    <HelloWorld/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 
 export default {
   name: 'App',
+  data :function(){
+    return{
+   yyy:{xxxx:'我是hello传过来的参数'}
+    }
+  },
   components: {
-    HelloWorld
+ 
   }
 }
 </script>
