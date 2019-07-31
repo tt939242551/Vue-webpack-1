@@ -6,7 +6,7 @@ import Vue from 'vue'
 import rt from './router/index.js'
 import axios from 'axios'
 import {InfiniteScroll} from 'mint-ui';
-import componentFooter from '../components/footer.vue'
+import componentFooter from '../components/footer1.vue'
 import Slides from '../components/slides.vue'
 
 Vue.use(InfiniteScroll);

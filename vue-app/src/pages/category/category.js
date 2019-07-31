@@ -4,7 +4,7 @@ import '../../modules/css/common.css'
 import './category.css'
 import Vue from 'vue'
 import axios from 'axios'
-import componentFooter from '../components/footer.vue'
+import Foot from '../components/footer2.vue'
 
 Vue.config.productionTip = false ;
 Vue.prototype.$http = axios
@@ -18,7 +18,7 @@ new Vue({
     Active:0
   },
   components: {
-    componentFooter,
+    Foot,
   },
   methods: {
     getLists1(){ 
@@ -48,8 +48,10 @@ new Vue({
       .then(rep=>{
        this.lists2 = rep.data.data
       }) 
-      }
-       
+      }   
+    },
+    toSearch(list){
+      location.href = `search.html?keyword=${list.name}&id=${list.id}`
     }
   },
   created() {
