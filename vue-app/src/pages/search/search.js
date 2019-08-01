@@ -3,6 +3,7 @@ import './search.css'
 import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
+import Velocity from 'velocity-animate'
 
 Vue.config.productionTip = false ;
 Vue.prototype.$http = axios
@@ -14,6 +15,7 @@ new Vue({
     goTop: false,
     lists: null,
     keyword: param.keyword,
+    init:false,
   },
   components: {
 
@@ -21,22 +23,29 @@ new Vue({
   methods: { 
     getLists(){
       this.$http.get('http://rap2api.taobao.org/app/mock/7058/search/list',{keyword:this.keyword,id:param.id})
-        .then(rep =>{    
-          this.lists = rep.data.lists
+        .then(rep =>{  
+          this.init = true 
+          if (this.lists) {
+            this.lists = this.lists.concat(rep.data.lists)
+          } else {
+            this.lists = rep.data.lists 
+          } 
         })
         .catch(err=>{
           console.log(err)
         })    
     },
     move(){
-      if(document.body.scrollTop > 100){
+      if(window.scrollY
+        > 200){
         this.goTop = true
       } else {
         this.goTop = false
       }
     },
     gotoTop(){
-      document.body.scrollTop = 0 
+      Velocity(document.body,'scroll',{duration: 1000})
+      this.goTop = false
     }
   },
   created() {

@@ -49,7 +49,7 @@
     <div class="search-content" style="display: none;"></div>
     <div class="content">
       <div class="search-wrap js-waterfull-wrap">
-        <ul class="js-list">
+        <ul class="js-list" @touchmove.once="getLists">
           <li class="goods-item" v-for= "list in lists">
             <a href="https://h5.youzan.com/v2/showcase/goods?alias=2755moo9i2r1c&amp;source=yzapp&amp;f_platform=yzapp">
               <div class="thumb">
@@ -57,9 +57,9 @@
                 <i class="sell-out" v-show="list.isOut"></i>
               </div>
               <div class="detail">
-                <div class="title">{{list.name}}</div>
+                <div class="title" v-show="init">{{list.name}}</div>
                 <div class="meta relative">
-                  <span class="price">{{list.price | Price}}</span>
+                  <span class="price" v-show="init">{{list.price | Price}}</span>
                   <span class="ship pull-right" v-show="list.isPostage">包邮</span>
                 </div>
               </div>
@@ -69,7 +69,7 @@
         <div class="list-finished">已经没有更多了</div>
       </div>
     </div>
-    <div class="go-to-top" @click="gotoTop" v-show="goTop" style=" transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);transition: all 1s"></div>
+    <div class="go-to-top" @click="gotoTop" v-show="goTop" style=" transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);"></div>
   </div>
 </body>
 
