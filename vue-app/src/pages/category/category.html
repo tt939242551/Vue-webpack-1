@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="search-content" style="display: none;"></div>
-      <div class="content" style="height: 617px;">
+      <div class="content" style="height: 617px;" v-show="lists">
         <div class="class-nav">
           <div id="scroll-nav" style="height: 100%;">
             <ul class="nav" id="scroll-nav-content" style="height: 540px; transform: translate3d(0px, 0px, 0px);">
@@ -71,11 +71,11 @@
                 <div class="hot-goods">
                   <div class="hot-title">
                     <p class="pull-left">热销商品榜</p>
-                    <a href="https://maijia.youzan.com/mars/rank/hotgoods" class="pull-right icon-right">更多</a>
+                    <a href="#" class="pull-right icon-right">更多</a>
                   </div>
                   <ul>
                     <li class="goods-item" v-for="list in lists.hotGoods">
-                      <a href="https://h5.youzan.com/v2/showcase/goods?alias=27cjv5wdsb4to&amp;source=yzapp&amp;f_platform=yzapp">
+                      <a :href="'goods.html?id='+list.id">
                         <div class="thumb badge center-img">
                           <img :src="list.img">
                           <span class="num">{{list.id}}</span>
@@ -90,7 +90,7 @@
                         </div>
                       </a>
                     </li>
-                   
+              
                   </ul>
                 </div>
                 <div class="hot-shops" style="position: relative;">
