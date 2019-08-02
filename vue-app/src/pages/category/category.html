@@ -17,12 +17,18 @@
   <meta http-equiv="cleartype" content="on">
   <link rel="shortcut icon" href="https://b.yzcdn.cn/v2/image/yz_fc.ico">
   <title>分类</title>
+  <style>
+      [v-cloak]{
+        display: none
+      }
+   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 
 <body class=" " >
-  <div id="app">
-    <div class="container with-bottom-nav" style="min-height: 667px; height: 667px;">
+  <div id="app" v-cloak>
+
+    <div class="container with-bottom-nav" style="min-height: 667px; height: 667px;" v-if="lists">
       <div class="custom-search js-search-bar">
         <form>
           <input type="search" class="custom-search-input" autocomplete="off" name="keyword" value="" placeholder="搜索更赞的商品">
@@ -48,7 +54,7 @@
         </div>
       </div>
       <div class="search-content" style="display: none;"></div>
-      <div class="content" style="height: 617px;" v-show="lists">
+      <div class="content" style="height: 617px;">
         <div class="class-nav">
           <div id="scroll-nav" style="height: 100%;">
             <ul class="nav" id="scroll-nav-content" style="height: 540px; transform: translate3d(0px, 0px, 0px);">
@@ -126,7 +132,7 @@
                 </div>
               </div>
             </div>
-            <div id="scroll-main-content" class="js-main-content inner-content" style="height: 534px; transform: translate3d(0px, 0px, 0px);" v-else>
+            <div id="scroll-main-content" class="js-main-content inner-content" style="height: 534px; transform: translate3d(0px, 0px, 0px);" v-else-if ="lists2">
               <h3 class="category-title">热门品牌 </h3>
               <ul class="category-content">
                 <li class="category-item js-category-item" :data-item-id="list.id" :data-item-name="list.name"
@@ -152,10 +158,12 @@
                 
               </ul>
             </div>
+            <div class="loading-more" v-else><span></span></div>
           </div>
         </div>
       </div>
     </div>
+    <div class="loading-more" v-else><span></span></div>
     <Foot></Foot>
   </div>
 </body>
