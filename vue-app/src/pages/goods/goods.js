@@ -57,7 +57,6 @@ new Vue({
     changeSku(val){
       if(this.skuNumber || val !== -1){ 
         this.skuNumber =  this.skuNumber + val
-        this.lists.remain = this.lists.remain - val
       }
     },
     addCart(){
@@ -69,10 +68,10 @@ new Vue({
           this.cart = true
           setTimeout(()=>{
             this.sku = true
-          },1000)
+          },500)
           setTimeout(()=>{
             this.sku = false
-          },2000)
+          },1500)
         }
       }) 
       }
