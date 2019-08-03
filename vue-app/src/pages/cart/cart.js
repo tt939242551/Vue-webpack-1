@@ -11,25 +11,26 @@ new Vue({
   el: '.container',
   data:{
     lists: null,
+    allSel: false,
+    total: 0
   },
-  computed: {
-    allSel:{
-      get(){
-        if(this.lists && this.lists.length){
-          return this.lists.every(shop => {
-            return shop.checked
-          })
-        }
-         return false
-      },
-      set(newVal){
-        this.lists.forEach(shop => {
-          shop.checked = newVal
-          shop.goodsList.forEach(ele=>{
-            ele.checked = newVal
+  computed:{
+    selLists(){
+      if(this.lists&&this.lists.length){
+        let arr = []
+        let total = 0
+        this.lists.forEach(shop=>{
+          shop.goodsList.forEach(goods=>{
+            if(goods.checked){
+              arr.push(goods)
+              total += goods.price * goods.number
+            }
           })
         })
+        this.total = total
+        return arr
       }
+      return []
     }
   },
   methods: { 
@@ -38,6 +39,8 @@ new Vue({
         .then(rep =>{  
             let lists = rep.data.cartList;
             lists.forEach(element => {
+              element.editing = false
+              element.msg = '编辑'
               element.goodsList.forEach(ele=>{
                 ele.checked = false
               })
@@ -53,15 +56,37 @@ new Vue({
       shop.checked = shop.goodsList.every(function(elem){
         return elem.checked;
       })
+      this.allSel = this.lists.every(shop=>{
+        return shop.checked
+      })
     },
     changeShop(shop){
     shop.checked = !shop.checked
     shop.goodsList.forEach(ele=>{
       ele.checked = shop.checked
     })
+    this.allSel = this.lists.every(shop=>{
+      return shop.checked
+    })
     },
     checkAll(){
       this.allSel = !this.allSel
+      this.lists.forEach(shop => {
+        shop.checked = this.allSel
+        shop.goodsList.forEach(ele=>{
+          ele.checked = this.allSel
+        })
+      })
+    },
+    edit(shop,index){
+      shop.editing = !shop.editing
+      shop.msg = shop.editing? '完成' : '编辑'
+      this.lists.forEach((item,i)=>{
+        if(index !==i ){
+          item.editing = false
+          item.msg = shop.editing? '' : '编辑'
+        }
+      })
     }
   },
   created() {
