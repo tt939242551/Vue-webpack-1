@@ -1,4 +1,4 @@
-
+import mixin from '../../modules/js/mixin'
 import '../../modules/css/common.css'
 import './index.css'
 import Vue from 'vue'
@@ -62,4 +62,5 @@ new Vue({
     this.getLists()
     this.getBanner()
   },
+  mixins: [mixin]
 })

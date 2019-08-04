@@ -1,4 +1,4 @@
-
+import mixin from '../../modules/js/mixin'
 import './goods_common.css'
 import './goods_custom.css'
 import './goods.css'
@@ -53,12 +53,12 @@ new Vue({
      // document.documentElement.style.height = val ? '100%' :'auto'
     },
     changeSku(val){
-      if(this.skuNumber || val !== -1){ 
+      if(this.skuNumber-1 || val !== -1){ 
         this.skuNumber =  this.skuNumber + val
       }
     },
     addCart(){
-      this.Actions = 0
+      this.changeActive(0)
       if (this.skuNumber) {
       axios.post('http://rap2api.taobao.org/app/mock/7058/cart/add',{id,number:this.skuNumber})
       .then(rsp=>{
@@ -91,17 +91,5 @@ new Vue({
   created() {
     this.getLists()
   },
-  filters:{
-    Price(a){
-      a = a + ''
-      var arr = a.split(".")
-      if (!arr[1]) {
-        return a.concat(".00")
-      } else if (arr[1].length===1) {
-        return a.concat("0")
-      } else  {
-        return a
-      }  
-    }
-  }
+  mixins: [mixin]
 })

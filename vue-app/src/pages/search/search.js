@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
 import Velocity from 'velocity-animate'
+import mixin from '../../modules/js/mixin'
 
 let param = qs.parse(location.search.substr(1))
 
@@ -49,17 +50,5 @@ new Vue({
   created() {
     this.getLists()
   },
-  filters:{
-    Price(a){
-      a = a + ''
-      var arr = a.split(".")
-      if (!arr[1]) {
-        return a.concat(".00")
-      } else if (arr[1].length===1) {
-        return a.concat("0")
-      } else  {
-        return a
-      }  
-    }
-  }
+  mixins: [mixin]
 })

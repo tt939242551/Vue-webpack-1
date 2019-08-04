@@ -1,4 +1,4 @@
-
+import mixin from '../../modules/js/mixin'
 import '../../modules/css/common.css'
 import './category.css'
 import Vue from 'vue'
@@ -54,17 +54,5 @@ new Vue({
     this.getLists1()
     this.getLists()
   },
-  filters:{
-    Price(a){
-      a = a + ''
-      var arr = a.split(".")
-      if (!arr[1]) {
-        return a.concat(".00")
-      } else if (arr[1].length===1) {
-        return a.concat("0")
-      } else  {
-        return a
-      }  
-    }
-  }
+  mixins: [mixin]
 })

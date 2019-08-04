@@ -1,9 +1,10 @@
-
+import mixin from '../../modules/js/mixin'
 import './cart_base.css'
 import './cart_trade.css'
 import './cart.css'
 import Vue from 'vue'
 import axios from 'axios'
+import Velocity from 'velocity-animate'
 
 new Vue({
   el: '.container',
@@ -129,22 +130,32 @@ new Vue({
     },
     confirm(){
       this.removePop = false
+    },
+    start(e,list){
+      list.startX = e.changedTouches[0].clientX
+    },
+    end(e,list){
+      let endX = e.changedTouches[0].clientX
+      let left = '0'
+      if(list.startX - endX > 80){
+        left = '-64px'
+      }
+      if(endX - list.startX > 80){
+        left = '0px'
+      }
+      setTimeout(()=>{
+        left = '0px'
+        Velocity(this.$refs[list.id],{
+          left:left
+        })
+      },2600)
+      Velocity(this.$refs[list.id],{
+        left:left
+      })
     }
   },
   created() {
     this.getLists()
   },
-  filters:{
-    Price(a){
-      a = a + ''
-      var arr = a.split(".")
-      if (!arr[1]) {
-        return a.concat(".00")
-      } else if (arr[1].length===1) {
-        return a.concat("0")
-      } else  {
-        return a
-      }  
-    }
-  }
+  mixins: [mixin]
 })
