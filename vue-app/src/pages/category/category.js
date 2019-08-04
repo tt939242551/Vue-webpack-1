@@ -1,13 +1,9 @@
-// The Vue build version to load with the `import` command
 
 import '../../modules/css/common.css'
 import './category.css'
 import Vue from 'vue'
 import axios from 'axios'
 import Foot from '../components/footer2.vue'
-
-Vue.config.productionTip = false ;
-Vue.prototype.$http = axios
 
 new Vue({
   el: '#app',
@@ -22,7 +18,7 @@ new Vue({
   },
   methods: {
     getLists1(){ 
-      this.$http.get('http://rap2api.taobao.org/app/mock/7058/category/topList')
+      axios.get('http://rap2api.taobao.org/app/mock/7058/category/topList')
       .then(rep =>{    
         this.lists1 = rep.data.lists
       })
@@ -31,7 +27,7 @@ new Vue({
       })  
     },
     getLists(){
-      this.$http.get('http://rap2api.taobao.org/app/mock/7058/category/rank')
+      axios.get('http://rap2api.taobao.org/app/mock/7058/category/rank')
         .then(rep =>{    
           this.lists = rep.data.data
         })
@@ -44,7 +40,7 @@ new Vue({
       if (!this.Active) {
         this.getLists() 
       } else {
-       this.$http.get('http://rap2api.taobao.org/app/mock/7058/category/subList')
+        axios.get('http://rap2api.taobao.org/app/mock/7058/category/subList')
       .then(rep=>{
        this.lists2 = rep.data.data
       }) 

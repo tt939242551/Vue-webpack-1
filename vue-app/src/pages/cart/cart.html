@@ -45,7 +45,7 @@
                 <ul class="js-list block block-list block-list-cart border-0">
                   <li class="block-item block-item-cart"
                   :class="{editing:shop.editing}" 
-                  v-for="list in shop.goodsList">
+                  v-for="(list,i) in shop.goodsList">
                     <div>
                       <div class="check-container" @click="changeCheck(shop,list)">
                         <span class="check" :class="{checked:list.checked}"></span></div>
@@ -71,8 +71,8 @@
                               <button type="button" class="minus" :class="{disabled:!(list.number-1)}"></button>
                               <input type="text" pattern="[0-9]*" class="txt" v-model="list.number">
                               <button type="button" class="plus "></button>
-                              <div class="response-area response-area-minus" @click="list.number -= 1"></div>
-                              <div class="response-area response-area-plus" @click="list.number += 1"></div>
+                              <div class="response-area response-area-minus" @click="minus(list)"></div>
+                              <div class="response-area response-area-plus" @click="plus(list)"></div>
                             </div>
                           </div>
                           <div class="price c-orange">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="error-box"></div>
                       </div>
-                      <div class="delete-btn"><span>删除</span></div>
+                      <div class="delete-btn" @click="remove(shop,index,list,i)"><span>删除</span></div>
                     </div>
                   </li>
                 </ul>
@@ -139,20 +139,32 @@
                 合计：¥<span class="js-total-price" style="color: rgb(255, 102, 0);">{{total | Price}}</span>
                 <p class="c-gray-dark">不含运费</p>
               </div>
-              <button href="javascript:;" :disabled="!selLists.length" class="js-go-pay btn btn-orange-dark font-size-14">
+              <button href="javascript:;" :disabled="!selLists.length || editingShop" class="js-go-pay btn btn-orange-dark font-size-14">
                 结算 ({{selLists.length}})
               </button>
-              <!-- 编辑状态 -->
+              <!-- 编辑状态
               <button href="javascript:;" disabled="disabled" 
               style="display: none;"
               class="j-delete-goods btn font-size-14 btn-red" >删除
-                    </button>
+                    </button> -->
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="loading-more" v-else><span></span></div>
+    <div id="0SuefKPV4p" v-show="removePop"  @click="confirm" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; opacity: 1;"></div>
+    <div id="d2tfiX27YS" v-show="removePop" class="popout-confirm popout-box" 
+    style="overflow: hidden; position: absolute; z-index: 1000; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
+      <div class="confirm-content font-size-14" style="line-height: 20px; padding: 5px 5px 10px;">确定要删除该商品吗？</div><hr style="margin: 9px -15px 10px;">
+      <div class="btn-2-1" style="width: 47.5%;">
+        <p class="js-cancel center font-size-16" @click="confirm" style="padding-top: 5px;">
+          取消</p></div>
+      <div class="btn-2-1" @click="removeConfirm" style="width: 47.5%;">
+        <p class="js-ok center c-green font-size-16" style="padding-top: 5px;">
+          确定</p>
+      </div>
+    </div>
   </div>
 </body>
 

@@ -5,8 +5,6 @@ import axios from 'axios'
 import qs from 'qs'
 import Velocity from 'velocity-animate'
 
-Vue.config.productionTip = false ;
-Vue.prototype.$http = axios
 let param = qs.parse(location.search.substr(1))
 
 new Vue({
@@ -22,7 +20,7 @@ new Vue({
   },
   methods: { 
     getLists(){
-      this.$http.get('http://rap2api.taobao.org/app/mock/7058/search/list',{keyword:this.keyword,id:param.id})
+      axios.get('http://rap2api.taobao.org/app/mock/7058/search/list',{keyword:this.keyword,id:param.id})
         .then(rep =>{  
           this.init = true 
           if (this.lists) {

@@ -5,14 +5,15 @@ import './cart.css'
 import Vue from 'vue'
 import axios from 'axios'
 
-Vue.prototype.$http = axios
-
 new Vue({
   el: '.container',
   data:{
     lists: null,
     allSel: false,
-    total: 0
+    total: 0,
+    editingShop: null,
+    removePop: false,
+    removeData : null
   },
   computed:{
     selLists(){
@@ -35,7 +36,7 @@ new Vue({
   },
   methods: { 
     getLists(){
-      this.$http.get('http://rap2api.taobao.org/app/mock/7058/cart/list')
+      axios.get('http://rap2api.taobao.org/app/mock/7058/cart/list')
         .then(rep =>{  
             let lists = rep.data.cartList;
             lists.forEach(element => {
@@ -52,6 +53,7 @@ new Vue({
         })    
     },
     changeCheck(shop,e){
+      if(this.editingShop){return}
       e.checked = !e.checked
       shop.checked = shop.goodsList.every(function(elem){
         return elem.checked;
@@ -61,6 +63,7 @@ new Vue({
       })
     },
     changeShop(shop){
+    if(this.editingShop){return}
     shop.checked = !shop.checked
     shop.goodsList.forEach(ele=>{
       ele.checked = shop.checked
@@ -70,6 +73,7 @@ new Vue({
     })
     },
     checkAll(){
+      if(this.editingShop){return}
       this.allSel = !this.allSel
       this.lists.forEach(shop => {
         shop.checked = this.allSel
@@ -87,6 +91,44 @@ new Vue({
           item.msg = shop.editing? '' : '编辑'
         }
       })
+      this.editingShop = shop.editing
+    },
+    minus(list){
+      if(list.number===1){return}
+      axios.post('http://rap2api.taobao.org/app/mock/7058/cart/reduce',{id:list.id,number:1})
+      .then(rep=>{
+        list.number --
+      })
+    },
+    plus(list){
+      axios.post('http://rap2api.taobao.org/app/mock/7058/cart/add',{id:list.id,number:1})
+      .then(rep=>{
+        list.number ++
+      })
+    },
+    remove(shop,index,list,i){
+      this.removePop = true
+      this.removeData = {shop,index,list,i}    
+    },
+    removeConfirm(){
+    let {shop,index,list,i} = this.removeData
+    axios.post('http://rap2api.taobao.org/app/mock/7058/cart/remove',{id:list.id})
+    .then(rep=>{
+      shop.goodsList.splice(i,1)
+      if(!shop.goodsList.length){
+        this.lists.splice(index,1)
+      }
+      this.removePop = false
+      this.editingShop = null
+      this.lists.forEach(item=>{
+          item.editing = false
+          item.msg = '编辑'
+        
+      })
+    })
+    },
+    confirm(){
+      this.removePop = false
     }
   },
   created() {
