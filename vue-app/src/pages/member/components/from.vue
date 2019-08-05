@@ -20,20 +20,21 @@
               <select class="js-province-selector" v-model="provinceValue">
                 <option value="-1">选择省份</option>
                 <option :value="p.value" v-for="p in addressData.list"
+                :key="p.value"
                 >{{p.label}}</option>
                
               </select>
               <select class="js-city-selector" v-model="cityValue">
                 <option value="-1">选择城市</option>
                 <option :value="c.value" v-for="c in cityList"
-            
+                :key="c.value"
                 >{{c.label}}</option>
                
               </select>
               <select class="js-county-selector" name="area_code" v-model="districtValue">
                 <option value="-1">选择地区</option>
                 <option :value="d.value" v-for="d in districtList"
-         
+                :key="d.value"
                 >{{d.label}}</option>
               </select>
             </div>
@@ -47,7 +48,7 @@
       <div @click="add" class="block section js-save block-control-btn">
         <div class="block-item c-blue center">保存</div>
       </div>
-      <div v-show="type==='edit'" @click="removeAddress" class="block section js-delete block-control-btn">
+      <div v-show="type==='edits'" @click="removeAddress" class="block section js-delete block-control-btn">
         <div class="block-item c-red center">删除</div>
       </div>
       <div @click="setDefault" class="block stick-bottom-row center js-save-default">
@@ -91,7 +92,7 @@ export default {
           this.$router.go(-1)
         }) 
       }
-      if(this.type==="edit"){
+      if(this.type==="edits"){
         this.$http.post('http://rap2api.taobao.org/app/mock/7058/address/updata',{data})
         .then(rep=>{
           this.$router.go(-1)
@@ -135,25 +136,26 @@ export default {
    provinceValue(val){
      if(val === -1) return
      let index = this.addressData.list.findIndex(item => {
-       return item.value = val
+       return item.value === val
      })
      this.cityList = this.addressData.list[index].children
      this.cityValue = -1
      this.districtValue = -1
-      if(this.type==='edit'){
+     if(this.type==='edit'){
        this.cityValue = parseInt(this.list.cityValue) 
-      }
+     }
    },
    cityValue(val){
      if(val === -1) return
      let index = this.cityList.findIndex(item => {
-       return item.value = val
+       return item.value === val
      })
      this.districtList = this.cityList[index].children
      this.districtValue = -1
 
      if(this.type==='edit'){
      this.districtValue = parseInt(this.list.districtValue)
+     this.type  = 'edits'
       }
    },
   },
