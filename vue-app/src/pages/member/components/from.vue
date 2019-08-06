@@ -48,7 +48,7 @@
       <div @click="add" class="block section js-save block-control-btn">
         <div class="block-item c-blue center">保存</div>
       </div>
-      <div v-show="type==='edits'" @click="removeAddress" class="block section js-delete block-control-btn">
+      <div v-show="type==='edit'" @click="removeAddress" class="block section js-delete block-control-btn">
         <div class="block-item c-red center">删除</div>
       </div>
       <div @click="setDefault" class="block stick-bottom-row center js-save-default">
@@ -76,51 +76,39 @@ export default {
       addressData,
       cityList: null,
       districtList : null,
+      isDefault : false,
+      isInitVal: true,
+      provinceName:'',
+      cityName:'',
+      districtName:'',
     }
   },
   methods: {
     add(){
-      let {name,id,tel,provinceValue,cityValue,districtValue,address} = this
-      let data = {name,id,tel,provinceValue,cityValue,districtValue,address}
-      if(this.type==="add"){
-        this.$http.post('http://rap2api.taobao.org/app/mock/7058/address/add',{data})
-        .then(rep=>{
-          this.$router.go(-1)
-        })
-        .catch(err=>{
-          console.log(err)
-          this.$router.go(-1)
-        }) 
+      let {name,tel,provinceValue,cityValue,districtValue,address,isDefault,provinceName,cityName,districtName,} = this
+      let data = {name,tel,provinceValue,cityValue,districtValue,address,isDefault,provinceName,cityName,districtName}
+      if (this.type === 'edit') {
+        data.id = this.id
+        this.$store.dispatch('updateAction', data)
+      } else {
+        data.id = parseInt(Math.random()*10000)
+        this.$store.dispatch('addAction', data)
       }
-      if(this.type==="edits"){
-        this.$http.post('http://rap2api.taobao.org/app/mock/7058/address/updata',{data})
-        .then(rep=>{
-          this.$router.go(-1)
-        })
-        .catch(err=>{
-          console.log(err)
-          this.$router.go(-1)
-        }) 
-      }
+       setTimeout(()=>{
+       this.$router.go(-1)  
+      },500)
     },
     setDefault(){
-      this.$http.post('http://rap2api.taobao.org/app/mock/7058/address/setDefault',{id:this.id})
-        .then(rep=>{
-          this.add()
-        })
-        .catch(err=>{
-          console.log(err)
-        }) 
+    this.isDefault = true
+    this.add()         
     },
     removeAddress(){
-      this.$http.post('http://rap2api.taobao.org/app/mock/7058/address/remove',{id:this.id})
-        .then(rep=>{
-          this.$router.go(-1)
-        })
-        .catch(err=>{
-          console.log(err)
-          this.$router.go(-1)
-        }) 
+      if(window.confirm('确认删除吗?')){
+      this.$store.dispatch('removeAction', this.id)
+      } 
+      setTimeout(()=>{
+       this.$router.go(-1)  
+      },500)
     }
   },
   created(){
@@ -129,7 +117,8 @@ export default {
      this.id = this.list.id ,
      this.name = this.list.name ,
      this.provinceValue = parseInt(this.list.provinceValue) , 
-     this.tel = this.list.tel 
+     this.tel = this.list.tel,
+     this.isDefault = this.list.isDefault  
     }
   },
   watch:{
@@ -138,10 +127,11 @@ export default {
      let index = this.addressData.list.findIndex(item => {
        return item.value === val
      })
+     this.provinceName = this.addressData.list[index].label
      this.cityList = this.addressData.list[index].children
      this.cityValue = -1
      this.districtValue = -1
-     if(this.type==='edit'){
+     if(this.type==='edit' && this.isInitVal){
        this.cityValue = parseInt(this.list.cityValue) 
      }
    },
@@ -150,14 +140,22 @@ export default {
      let index = this.cityList.findIndex(item => {
        return item.value === val
      })
+     this.cityName = this.cityList[index].label
      this.districtList = this.cityList[index].children
      this.districtValue = -1
 
-     if(this.type==='edit'){
+     if(this.type==='edit' && this.isInitVal){
      this.districtValue = parseInt(this.list.districtValue)
-     this.type  = 'edits'
+     this.isInitVal = false
       }
    },
+   districtValue(val){
+     if(val === -1) return
+     let index = this.districtList.findIndex(item => {
+       return item.value === val
+     })
+     this.districtName = this.districtList[index].label
+    }
   },
 }
 </script>
