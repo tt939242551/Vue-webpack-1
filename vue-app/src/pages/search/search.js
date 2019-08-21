@@ -21,7 +21,7 @@ new Vue({
   },
   methods: { 
     getLists(){
-      axios.get('http://rap2api.taobao.org/app/mock/7058/search/list',{keyword:this.keyword,id:param.id})
+      axios.get('//rap2api.taobao.org/app/mock/7058/search/list',{keyword:this.keyword,id:param.id})
         .then(rep =>{  
           this.init = true 
           if (this.lists) {

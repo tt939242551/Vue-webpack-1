@@ -30,7 +30,7 @@ new Vue({
   },
   methods: { 
     getLists(){
-      axios.get('http://rap2api.taobao.org/app/mock/7058/goods/details',{id})
+      axios.get('//rap2api.taobao.org/app/mock/7058/goods/details',{id})
         .then(rep =>{ 
           this.lists = rep.data.data
           this.bannerLists = []
@@ -60,7 +60,7 @@ new Vue({
     addCart(){
       this.changeActive(0)
       if (this.skuNumber) {
-      axios.post('http://rap2api.taobao.org/app/mock/7058/cart/add',{id,number:this.skuNumber})
+      axios.post('//rap2api.taobao.org/app/mock/7058/cart/add',{id,number:this.skuNumber})
       .then(rsp=>{
         if(rsp.data.status===200){
           this.cart = true
@@ -76,7 +76,7 @@ new Vue({
     },
     sales(){
     this.inactive = false
-    axios.get('http://rap2api.taobao.org/app/mock/7058/goods/deal',{id})
+    axios.get('//rap2api.taobao.org/app/mock/7058/goods/deal',{id})
     .then(rep =>{ 
       this.deals = rep.data.data.lists
     })

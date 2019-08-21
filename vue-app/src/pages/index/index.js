@@ -28,7 +28,7 @@ new Vue({
           return
          } else {
       this.loading = true
-      axios.get('http://rap2api.taobao.org/app/mock/7058/index/hotLists',{
+      axios.get('//rap2api.taobao.org/app/mock/7058/index/hotLists',{
         params:{
           pageNum: this.pageNum,
           pageSize:6
@@ -52,7 +52,7 @@ new Vue({
      }   
     },
     getBanner(){
-      axios.get('http://rap2api.taobao.org/app/mock/7058/index/banner')
+      axios.get('//rap2api.taobao.org/app/mock/7058/index/banner')
       .then(rep=>{
        this.bannerLists = rep.data.lists
       })  

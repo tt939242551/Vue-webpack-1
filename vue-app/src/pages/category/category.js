@@ -18,7 +18,7 @@ new Vue({
   },
   methods: {
     getLists1(){ 
-      axios.get('http://rap2api.taobao.org/app/mock/7058/category/topList')
+      axios.get('//rap2api.taobao.org/app/mock/7058/category/topList')
       .then(rep =>{    
         this.lists1 = rep.data.lists
       })
@@ -27,7 +27,7 @@ new Vue({
       })  
     },
     getLists(){
-      axios.get('http://rap2api.taobao.org/app/mock/7058/category/rank')
+      axios.get('//rap2api.taobao.org/app/mock/7058/category/rank')
         .then(rep =>{    
           this.lists = rep.data.data
         })
@@ -40,7 +40,7 @@ new Vue({
       if (!this.Active) {
         this.getLists() 
       } else {
-        axios.get('http://rap2api.taobao.org/app/mock/7058/category/subList')
+        axios.get('//rap2api.taobao.org/app/mock/7058/category/subList')
       .then(rep=>{
        this.lists2 = rep.data.data
       }) 

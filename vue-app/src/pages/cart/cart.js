@@ -37,7 +37,7 @@ new Vue({
   },
   methods: { 
     getLists(){
-      axios.get('http://rap2api.taobao.org/app/mock/7058/cart/list')
+      axios.get('//rap2api.taobao.org/app/mock/7058/cart/list')
         .then(rep =>{  
             let lists = rep.data.cartList;
             lists.forEach(element => {
@@ -96,13 +96,13 @@ new Vue({
     },
     minus(list){
       if(list.number===1){return}
-      axios.post('http://rap2api.taobao.org/app/mock/7058/cart/reduce',{id:list.id,number:1})
+      axios.post('//rap2api.taobao.org/app/mock/7058/cart/reduce',{id:list.id,number:1})
       .then(rep=>{
         list.number --
       })
     },
     plus(list){
-      axios.post('http://rap2api.taobao.org/app/mock/7058/cart/add',{id:list.id,number:1})
+      axios.post('//rap2api.taobao.org/app/mock/7058/cart/add',{id:list.id,number:1})
       .then(rep=>{
         list.number ++
       })
@@ -113,7 +113,7 @@ new Vue({
     },
     removeConfirm(){
     let {shop,index,list,i} = this.removeData
-    axios.post('http://rap2api.taobao.org/app/mock/7058/cart/remove',{id:list.id})
+    axios.post('//rap2api.taobao.org/app/mock/7058/cart/remove',{id:list.id})
     .then(rep=>{
       shop.goodsList.splice(i,1)
       if(!shop.goodsList.length){
